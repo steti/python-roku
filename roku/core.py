@@ -190,7 +190,7 @@ class Roku(object):
         func = getattr(self._conn, method.lower())
         resp = func(url, *args, **kwargs)
 
-        if resp.status_code not in [200, 204]:
+        if resp.status_code not in [200, 202, 204]:
             raise RokuException(resp.content)
 
         return resp.content
