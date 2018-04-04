@@ -57,6 +57,8 @@ COMMANDS = {
 
     # For devices that support being turned on/off
     'power': 'Power',
+    'power_on': 'PowerOn',
+    'power_off': 'PowerOff',
 }
 
 SENSORS = ('acceleration', 'magnetic', 'orientation', 'rotation')
@@ -273,3 +275,15 @@ class Roku(object):
             name=app_node.text,
             roku=self,
         )
+
+    @property
+    def current_power_mode(self):
+        resp = self._get('/query/device-info')
+        root = ET.fromstring(resp)
+        return root.find('power-mode').text
+
+    @property
+    def is_tv(self):
+        resp = self._get('/query/device-info')
+        root = ET.fromstring(resp)
+        return root.find('is-tv').text == "true"
