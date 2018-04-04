@@ -285,10 +285,14 @@ class Roku(object):
     def current_power_mode(self):
         resp = self._get('/query/device-info')
         root = ET.fromstring(resp)
+        if root.find('power-mode') is None:
+            return "PowerOn"
         return root.find('power-mode').text
 
     @property
     def is_tv(self):
         resp = self._get('/query/device-info')
         root = ET.fromstring(resp)
+        if root.find('is-tv') is None:
+            return false
         return root.find('is-tv').text == "true"
